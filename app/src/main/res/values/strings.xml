@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Proyecto Arqui2 Grupo 2</string>
+    //Titulos
+    <string name="activity_bienvenido">Bienvenido</string>
+    <string name="activity_estadisticas">Estadisticas</string>
+    <string name="activity_estadoactual">ESTADO ACTUAL</string>
+    <string name="activity_iluminacion">Iluminacion</string>
+    <string name="activity_peso">Peso</string>
+    <string name="activity_temperatura">Temperatura</string>
+    <string name="activity_tiempo">Tiempo Sentado</string>
+    <string name="activity_principal">Sit Intelligent</string>
+    <string name="activity_recomendaciones">Recomendaciones</string>
+    //Botones
+    <string name="iniciar">Iniciar</string>
+    <string name="iluminacion">ILUMINACION</string>
+    <string name="peso">PESO</string>
+    <string name="temperatura">TEMPERATURA</string>
+    <string name="tiempo">TIEMPO SENTADO</string>
+    <string name="recomendaciones">RECOMENDACIONES</string>
+    <string name="estadisticas">ESTADISTICAS</string>
+    <string name="estado">ESTADO ACTUAL</string>
+    //Estado Actual
+    <string name="ilu">Iluminacion</string>
+    <string name="pes">Peso</string>
+    <string name="temp">Temperatura</string>
+    <string name="tiem">Tiempo</string>
+</resources>

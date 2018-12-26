@@ -1,35 +1,47 @@
 package com.example.annel.arqui2;
 
-import android.graphics.Color;
+import android.graphics.RectF;
+import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MotionEvent;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.listener.ChartTouchListener;
-import com.github.mikephil.charting.listener.OnChartGestureListener;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.FileUtils;
+import com.github.mikephil.charting.model.GradientColor;
+import com.github.mikephil.charting.utils.MPPointF;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class Iluminacion extends AppCompatActivity{
+public class Iluminacion extends AppCompatActivity {
+
+    private static final String SERVER = "http://35.231.118.246/";
+    private BarChart chart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,64 +50,166 @@ public class Iluminacion extends AppCompatActivity{
 
         setTitle("Iluminación");
 
-        BarChart chart = (BarChart) findViewById(R.id.Line);
+        chart = findViewById(R.id.chart1);
+        chart.setDrawBarShadow(false);
+        chart.setDrawValueAboveBar(true);
+        chart.getDescription().setEnabled(false);
+        chart.setMaxVisibleValueCount(60);
+        chart.setPinchZoom(false);
+        chart.setDrawGridBackground(false);
 
-        BarData data = new BarData(getXAxisValues(), getDataSet());
-        chart.setData(data);
-        chart.animateXY(2000, 2000);
-        chart.invalidate();
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setGranularity(1f); // only intervals of 1 day
+        xAxis.setLabelCount(7);
+
+        YAxis leftAxis = chart.getAxisLeft();
+        leftAxis.setLabelCount(8, false);
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
+        leftAxis.setSpaceTop(15f);
+        leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+
+        YAxis rightAxis = chart.getAxisRight();
+        rightAxis.setDrawGridLines(false);
+        rightAxis.setLabelCount(8, false);
+        rightAxis.setSpaceTop(15f);
+        rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+
+        Legend l = chart.getLegend();
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        l.setDrawInside(false);
+        l.setForm(Legend.LegendForm.SQUARE);
+        l.setFormSize(9f);
+        l.setTextSize(11f);
+        l.setXEntrySpace(4f);
+
+        downloadJSON(SERVER + "consulta.php");
     }
 
-    private ArrayList<BarDataSet> getDataSet() {
-        ArrayList<BarDataSet> dataSets = null;
+    private void setData(String json) {
+        try {
+            JSONArray jsonArray = new JSONArray(json);
+            int[] luz = new int[jsonArray.length()];
+            String[] timeStamp = new String[jsonArray.length()];
+            String aux = "";
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject obj = jsonArray.getJSONObject(i);
+                luz[i] = obj.getInt("luz");
+                timeStamp[i] = obj.getString("fecha");
+            }
 
-        ArrayList<BarEntry> valueSet1 = new ArrayList<>();
-        BarEntry v1e1 = new BarEntry(110.000f, 0); // Jan
-        valueSet1.add(v1e1);
-        BarEntry v1e2 = new BarEntry(40.000f, 1); // Feb
-        valueSet1.add(v1e2);
-        BarEntry v1e3 = new BarEntry(60.000f, 2); // Mar
-        valueSet1.add(v1e3);
-        BarEntry v1e4 = new BarEntry(30.000f, 3); // Apr
-        valueSet1.add(v1e4);
-        BarEntry v1e5 = new BarEntry(90.000f, 4); // May
-        valueSet1.add(v1e5);
-        BarEntry v1e6 = new BarEntry(100.000f, 5); // Jun
-        valueSet1.add(v1e6);
+            ArrayList<String> fecha = new ArrayList<>();
+            for(int i = 0; i<timeStamp.length;i++){
+                if(aux.equals("")){
+                    fecha.add(timeStamp[i].substring(0,11));
+                    aux = timeStamp[i].substring(0,11);
+                }else{
+                    if(!aux.equals(timeStamp[i].substring(0,11))){
+                        fecha.add(timeStamp[i].substring(0,11));
+                        aux = timeStamp[i].substring(0,11);
+                    }
+                }
+            }
 
-        ArrayList<BarEntry> valueSet2 = new ArrayList<>();
-        BarEntry v2e1 = new BarEntry(150.000f, 0); // Jan
-        valueSet2.add(v2e1);
-        BarEntry v2e2 = new BarEntry(90.000f, 1); // Feb
-        valueSet2.add(v2e2);
-        BarEntry v2e3 = new BarEntry(120.000f, 2); // Mar
-        valueSet2.add(v2e3);
-        BarEntry v2e4 = new BarEntry(60.000f, 3); // Apr
-        valueSet2.add(v2e4);
-        BarEntry v2e5 = new BarEntry(20.000f, 4); // May
-        valueSet2.add(v2e5);
-        BarEntry v2e6 = new BarEntry(80.000f, 5); // Jun
-        valueSet2.add(v2e6);
+            String aux2 = "";
+            ArrayList<BarEntry> values = new ArrayList<>();
+            for (int i = 0; i < fecha.size(); i++) {
+                aux2 = fecha.get(i).substring(8,10);
+                int cont = 0; float prom = 0;
+                for(int j = 0;j<luz.length;j++){
+                    float val = (float) luz[j];
+                    if(timeStamp[j].substring(8,10).equals(fecha.get(i).substring(8,10))){
+                        prom = prom + val;
+                        cont++;
+                    }
+                }
+                values.add(new BarEntry(Integer.parseInt(aux2), prom/cont));
+            }
 
-        BarDataSet barDataSet1 = new BarDataSet(valueSet1, "Brand 1");
-        barDataSet1.setColor(Color.rgb(0, 155, 0));
-        BarDataSet barDataSet2 = new BarDataSet(valueSet2, "Brand 2");
-        barDataSet2.setColors(ColorTemplate.COLORFUL_COLORS);
+            BarDataSet set1;
 
-        dataSets = new ArrayList<>();
-        dataSets.add(barDataSet1);
-        dataSets.add(barDataSet2);
-        return dataSets;
+            if (chart.getData() != null && chart.getData().getDataSetCount() > 0) {
+                set1 = (BarDataSet) chart.getData().getDataSetByIndex(0);
+                set1.setValues(values);
+                chart.getData().notifyDataChanged();
+                chart.notifyDataSetChanged();
+
+            } else {
+                set1 = new BarDataSet(values, "Dia");
+                set1.setDrawIcons(false);
+
+                int startColor1 = ContextCompat.getColor(this, android.R.color.holo_orange_light);
+                int startColor2 = ContextCompat.getColor(this, android.R.color.holo_blue_light);
+                int startColor3 = ContextCompat.getColor(this, android.R.color.holo_orange_light);
+                int startColor4 = ContextCompat.getColor(this, android.R.color.holo_green_light);
+                int startColor5 = ContextCompat.getColor(this, android.R.color.holo_red_light);
+                int endColor1 = ContextCompat.getColor(this, android.R.color.holo_blue_dark);
+                int endColor2 = ContextCompat.getColor(this, android.R.color.holo_purple);
+                int endColor3 = ContextCompat.getColor(this, android.R.color.holo_green_dark);
+                int endColor4 = ContextCompat.getColor(this, android.R.color.holo_red_dark);
+                int endColor5 = ContextCompat.getColor(this, android.R.color.holo_orange_dark);
+
+                List<GradientColor> gradientColors = new ArrayList<>();
+                gradientColors.add(new GradientColor(startColor1, endColor1));
+                gradientColors.add(new GradientColor(startColor2, endColor2));
+                gradientColors.add(new GradientColor(startColor3, endColor3));
+                gradientColors.add(new GradientColor(startColor4, endColor4));
+                gradientColors.add(new GradientColor(startColor5, endColor5));
+
+                set1.setGradientColors(gradientColors);
+
+                ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+                dataSets.add(set1);
+
+                BarData data = new BarData(dataSets);
+                data.setValueTextSize(10f);
+                data.setBarWidth(0.9f);
+
+                chart.setData(data);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
-    private ArrayList<String> getXAxisValues() {
-        ArrayList<String> xAxis = new ArrayList<>();
-        xAxis.add("JAN");
-        xAxis.add("FEB");
-        xAxis.add("MAR");
-        xAxis.add("APR");
-        xAxis.add("MAY");
-        xAxis.add("JUN");
-        return xAxis;
+    private void downloadJSON(final String urlWebService) {
+
+        class DownloadJSON extends AsyncTask<Void, Void, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+                setData(s);
+            }
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                try {
+                    URL url = new URL(urlWebService);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    StringBuilder sb = new StringBuilder();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    String json;
+                    while ((json = bufferedReader.readLine()) != null) {
+                        sb.append(json + "\n");
+                    }
+                    return sb.toString().trim();
+                } catch (Exception e) {
+                    return null;
+                }
+            }
+        }
+        DownloadJSON getJSON = new DownloadJSON();
+        getJSON.execute();
     }
+
 }

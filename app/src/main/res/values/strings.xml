@@ -8,7 +8,7 @@
     <string name="activity_peso">Peso</string>
     <string name="activity_temperatura">Temperatura</string>
     <string name="activity_tiempo">Tiempo Sentado</string>
-    <string name="activity_principal">Sit Intelligent</string>
+    <string name="activity_principal">Intelligent Sit</string>
     <string name="activity_recomendaciones">Recomendaciones</string>
     //Botones
     <string name="iniciar">Iniciar</string>
@@ -24,4 +24,8 @@
     <string name="pes">Peso</string>
     <string name="temp">Temperatura</string>
     <string name="tiem">Tiempo</string>
+    //Otros
+    <string name="dash">-</string>
+    <string name="informacion">Intelligent Sit ofrece informacion a los usuarios sobre las siguientes funciones.
+    Además te brinda acciones automatizadas</string>
 </resources>

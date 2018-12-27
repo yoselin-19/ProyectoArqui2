@@ -16,7 +16,7 @@ public class Bienvenida extends AppCompatActivity {
     }
 
     public void Start(View view){
-        Intent inte = new Intent(Bienvenida.this,Principal.class);
+        Intent inte = new Intent(Bienvenida.this,menuDesplegable.class);
         startActivity(inte);
     }
 }

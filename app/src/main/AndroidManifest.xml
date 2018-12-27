@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.annel.arqui2">
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,7 +25,11 @@
         <activity android:name=".Temperatura" />
         <activity android:name=".TiempoSentado" />
         <activity android:name=".Peso" />
-        <activity android:name=".Iluminacion"></activity>
+        <activity android:name=".Iluminacion" />
+        <activity
+            android:name=".menuDesplegable"
+            android:label="@string/title_activity_menu_desplegable"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

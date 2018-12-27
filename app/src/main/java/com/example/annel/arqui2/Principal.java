@@ -4,21 +4,25 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 public class Principal extends AppCompatActivity {
 
     Button recomendaciones;
     Button estadisticas;
     Button estadoactual;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
-
         recomendaciones = (Button)findViewById(R.id.btn_recomendaciones);
         estadisticas = (Button)findViewById(R.id.btn_estadisticas);
         estadoactual = (Button)findViewById(R.id.btn_estadoactual);
+
     }
 
     public void I_Recomendaciones(View view){

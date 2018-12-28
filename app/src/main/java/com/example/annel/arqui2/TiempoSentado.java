@@ -136,7 +136,7 @@ public class TiempoSentado extends AppCompatActivity {
                 chart.notifyDataSetChanged();
 
             } else {
-                set1 = new BarDataSet(values, "Dia");
+                set1 = new BarDataSet(values, "Minutos");
                 set1.setDrawIcons(false);
 
                 int startColor5 = ContextCompat.getColor(this, android.R.color.holo_orange_light);

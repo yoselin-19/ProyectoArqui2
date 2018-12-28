@@ -18,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Estado_Actual extends AppCompatActivity {
@@ -99,9 +100,14 @@ public class Estado_Actual extends AppCompatActivity {
                     }
 
                     fecha_actual.setText(fecha.get(fecha.size()-1).substring(0,10));
-                    if(tiempo<60)time.setText(""+tiempo+" Min");
-                    else if(tiempo/60 == 1)time.setText(""+tiempo/60+" Hr");
-                    else time.setText(""+tiempo/60+" Hrs");
+
+                    DecimalFormat format = new DecimalFormat();
+                    format.setMaximumFractionDigits(2); //Define 2 decimales.
+
+
+                    if(tiempo<60)time.setText(""+format.format(tiempo)+" Min");
+                    else if(tiempo/60 == 1)time.setText(""+format.format(tiempo/60)+" Hr");
+                    else time.setText(""+format.format(tiempo/60)+" Hrs");
 
                 } catch (JSONException e) {
                     e.printStackTrace();

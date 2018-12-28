@@ -116,7 +116,7 @@ public class Peso extends AppCompatActivity {
             Collections.sort(values, new EntryXComparator());
 
             // create a dataset and give it a type
-            LineDataSet set1 = new LineDataSet(values, "Dias");
+            LineDataSet set1 = new LineDataSet(values, "Peso en gramos");
 
             set1.setLineWidth(1.5f);
             set1.setCircleRadius(4f);
@@ -165,10 +165,5 @@ public class Peso extends AppCompatActivity {
         }
         DownloadJSON getJSON = new DownloadJSON();
         getJSON.execute();
-    }
-
-    private void loadIntoActivity(String json) throws JSONException {
-        JSONArray arreglo = new JSONArray(json);
-        JSONObject obj = arreglo.getJSONObject(arreglo.length()-1);
     }
 }

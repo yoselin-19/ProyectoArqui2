@@ -152,9 +152,9 @@ public class Estado_Actual extends AppCompatActivity {
 //                Toast.makeText(getApplicationContext(),"texto", Toast.LENGTH_SHORT);
 //        toast1.show();
 
-        temp.setText(obj.getString("temperatura"));
-        ilum.setText(obj.getString("luz"));
-        time.setText("Hora");
-        peso.setText(obj.getString("peso"));
+//        temp.setText(obj.getString("temperatura"));
+//        ilum.setText(obj.getString("luz"));
+//        time.setText("Hora");
+//        peso.setText(obj.getString("peso"));
     }
 }

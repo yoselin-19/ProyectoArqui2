@@ -24,13 +24,17 @@
 
     <ListView
         android:id="@+id/list_recomendaciones"
+        style="@android:style/Widget.DeviceDefault.Light.ExpandableListView"
         android:layout_width="0dp"
         android:layout_height="372dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="8dp"
+        android:divider="@color/colorAccent"
+        android:dividerHeight="1dp"
         android:scrollbars="vertical"
+        android:theme="@style/AppTheme.AppBarOverlay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

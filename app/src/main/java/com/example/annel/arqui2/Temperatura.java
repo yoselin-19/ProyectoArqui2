@@ -109,7 +109,7 @@ public class Temperatura extends AppCompatActivity {
 //            yValues.add(new PieEntry(40, "Panamá"));
 //            yValues.add(new PieEntry(23, "Canada"));
 
-            PieDataSet dataSet = new PieDataSet(yValues, "Temperatura en C\u00b0");
+            PieDataSet dataSet = new PieDataSet(yValues, "Temperatura en \u00b0C");
             dataSet.setSliceSpace(3f);
             dataSet.setSelectionShift(5f);
             dataSet.setColors(ColorTemplate.COLORFUL_COLORS);

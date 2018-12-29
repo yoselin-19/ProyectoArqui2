@@ -63,10 +63,10 @@ public class Estado_Actual extends AppCompatActivity {
                     JSONArray arreglo = new JSONArray(s);
                     JSONObject obj = arreglo.getJSONObject(arreglo.length()-1);
 
-                    temp.setText(obj.getString("temperatura"));
+                    temp.setText(obj.getString("temperatura") + " \u00b0C");
                     ilum.setText(obj.getString("luz"));
 
-                    peso.setText(obj.getString("peso"));
+                    peso.setText(obj.getString("peso") + " g");
 
 
                     JSONArray jsonArray = new JSONArray(s);

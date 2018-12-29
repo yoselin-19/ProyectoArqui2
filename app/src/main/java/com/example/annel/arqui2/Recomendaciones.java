@@ -126,6 +126,9 @@ public class Recomendaciones extends AppCompatActivity {
             if(tiempo/60 > 3){
                 listaMsj.add("Has pasado mas de 3 horas sentado, deberias pararte unos minutos");
                 adaptador.notifyDataSetChanged();
+            }else if(tiempo > 2){
+                listaMsj.add("Has pasado mas de 2 minutos sentado, deberias pararte unos minutos");
+                adaptador.notifyDataSetChanged();
             }
             else {
                 listaMsj.remove("Has pasado mas de 3 horas sentado, deberias pararte unos minutos");

@@ -5,7 +5,7 @@
     style="@style/AlertDialog.AppCompat"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_green_light">
+    android:background="@android:color/transparent">
 
     <ImageView
         android:id="@+id/imageView2"
@@ -39,12 +39,12 @@
     <TextView
         android:id="@+id/texto"
         android:layout_width="295dp"
-        android:layout_height="60dp"
+        android:layout_height="63dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:text="Descripcion"
-        android:textColor="@android:color/background_dark"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toEndOf="@+id/imageView2"

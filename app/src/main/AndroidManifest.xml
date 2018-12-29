@@ -30,6 +30,10 @@
             android:name=".menuDesplegable"
             android:label="@string/title_activity_menu_desplegable"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
